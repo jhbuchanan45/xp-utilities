@@ -1,6 +1,12 @@
 package dev.maniac.xpUtilities.item;
 
 import dev.maniac.xpUtilities.core.XPItems;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.FluidDrainable;
@@ -10,7 +16,9 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -21,6 +29,7 @@ import net.minecraft.world.World;
 import static dev.maniac.xpUtilities.XPUtilities.XP_PER_BUCKET;
 import static dev.maniac.xpUtilities.core.XPFluids.STILL_LIQUID_XP;
 
+@SuppressWarnings("deprecation")
 public class XPExtractorBucket extends BucketItem {
     public XPExtractorBucket(Fluid fluid, Settings settings) {
         super(fluid, settings);
@@ -49,5 +58,31 @@ public class XPExtractorBucket extends BucketItem {
             }
             return TypedActionResult.fail(playerEntity.getStackInHand(hand));
         }
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        BlockState state = context.getWorld().getBlockState(context.getBlockPos());
+        Storage<FluidVariant> storage = FluidStorage.SIDED.find(context.getWorld(), context.getBlockPos(), context.getSide());
+
+        if (storage == null) {
+            return ActionResult.PASS;
+        }
+
+        try (Transaction transaction = Transaction.openOuter()) {
+            // storage can't be null
+            long extracted = storage.extract(FluidVariant.of(STILL_LIQUID_XP), FluidConstants.BUCKET, transaction);
+
+            if (extracted == FluidConstants.BUCKET) {
+                transaction.commit();
+                PlayerEntity player = context.getPlayer();
+                player.getStackInHand(context.getHand()).decrement(1);
+                player.getInventory().insertStack(XPItems.LIQUID_XP_EXTRACTOR_BUCKET_FILLED.getDefaultStack());
+                context.getPlayer().playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0F, 0.3F);
+                return ActionResult.success(context.getWorld().isClient());
+            }
+        }
+
+        return ActionResult.FAIL;
     }
 }
