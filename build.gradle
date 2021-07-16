@@ -1,5 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id "com.modrinth.minotaur" version "1.1.0"
+	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id 'maven-publish'
 }
 
@@ -61,6 +63,15 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+}
+
+task publishModrinth (type: com.modrinth.minotaur.TaskModrinthUpload) {
+	token = System.getenv().MODRINTH_TOKEN // Use an environment property if releasing your source code on GitHub!
+	projectId = "TUjmvU8G" // The ID of your modrinth project, slugs will not work.
+	versionNumber = mod_version // The version of the mod to upload.
+	uploadFile = remapJar // This links to a task that builds your mod jar and sets "uploadFile" to the mod jar.
+	addGameVersion('1.17.0') // Any minecraft version.
+	addLoader('fabric') // Can be fabric or forge. Modrinth will support liteloader and rift at a later date.
 }
 
 // configure the maven publication
