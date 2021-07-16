@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "GBG",
+    " Q "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "xp_utilities:liquid_xp_extractor_bucket",
+    "count": 1
+  }
+}
+

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values":
+  [
+    "xp_utilities:liquid_xp",
+    "xp_utilities:liquid_xp_flowing"
+  ]
+}

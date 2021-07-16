@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "xp_utilities:item/liquid_xp_bucket"
+  }
+}
