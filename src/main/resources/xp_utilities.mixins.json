@@ -4,9 +4,7 @@
   "package": "dev.maniac.xpUtilities.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-  ],
-  "client": [
-    "BucketItemMixin"
+  "BucketItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
