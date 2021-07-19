@@ -1,0 +1,10 @@
+{
+  "item.xp_utilities.liquid_xp_extractor_bucket": "Liquid XP Extractor Bucket",
+  "item.xp_utilities.liquid_xp_extractor_bucket_filled": "Liquid XP Extractor Bucket",
+  "item.xp_utilities.liquid_xp_bucket": "Liquid XP Bucket",
+  "item.xp_utilities.xp_extractor": "XP Extractor",
+  "block.xp_utilities.liquid_xp": "Liquid XP",
+  "block.xp_utilities.xp_extractor": "XP Extractor",
+  "fluid.xp_utilities.liquid_xp": "Liquid XP",
+  "fluid.xp_utilities.liquid_xp_flowing": "Liquid XP"
+}

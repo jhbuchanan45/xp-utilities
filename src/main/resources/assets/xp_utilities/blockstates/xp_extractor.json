@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "xp_utilities:block/xp_extractor" }
+  }
+}

@@ -1,13 +1,21 @@
 package dev.maniac.xpUtilities;
 
+import dev.maniac.xpUtilities.block.XPTank.client.render.XpTankBlockModel;
+import dev.maniac.xpUtilities.block.XPTank.client.render.XpTankModelProvider;
+import dev.maniac.xpUtilities.block.XPTank.client.render.XpTankRenderer;
+import dev.maniac.xpUtilities.core.XPBlockEntityTypes;
 import dev.maniac.xpUtilities.core.XPFluids;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.fluid.Fluid;
@@ -21,11 +29,21 @@ import net.minecraft.world.BlockRenderView;
 
 import java.util.function.Function;
 
+import static dev.maniac.xpUtilities.XPUtilities.MOD_ID;
+
 public class XPUtilitiesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         setupFluidRendering(XPFluids.STILL_LIQUID_XP, XPFluids.FLOWING_LIQUID_XP, new Identifier("minecraft", "lava"), 0x32f932);
-//        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), XPFluids.STILL_XP, XPFluids.FLOWING_XP);
+        registerModelProviders();
+        XpTankModelProvider.register(new Identifier(MOD_ID, "block/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier("minecraft", "block/oak_trapdoor")));
+        XpTankModelProvider.register(new Identifier(MOD_ID, "item/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier("minecraft", "block/oak_trapdoor")));
+        BlockEntityRendererRegistry.INSTANCE.register(XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_ENTITY_TYPE, XpTankRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), XPFluids.STILL_LIQUID_XP, XPFluids.FLOWING_LIQUID_XP);
+    }
+
+    public static void registerModelProviders() {
+        ModelLoadingRegistry.INSTANCE.registerResourceProvider(rm -> new XpTankModelProvider());
     }
 
     public static void setupFluidRendering(final Fluid still, final Fluid flowing, final Identifier textureFluidId, final int color) {

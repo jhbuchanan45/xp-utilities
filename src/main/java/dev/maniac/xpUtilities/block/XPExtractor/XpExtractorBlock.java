@@ -1,48 +1,44 @@
 package dev.maniac.xpUtilities.block.XPExtractor;
 
+import dev.maniac.xpUtilities.block.XPTank.XpTankBlock;
+import dev.maniac.xpUtilities.core.XPBlockEntityTypes;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.List;
+import static dev.maniac.xpUtilities.XPUtilities.XP_PER_BUCKET;
+import static dev.maniac.xpUtilities.core.XPFluids.STILL_LIQUID_XP;
 
-@SuppressWarnings("deprecation")
-public class XpExtractorBlock extends Block implements BlockEntityProvider {
-
+public class XpExtractorBlock extends XpTankBlock {
     public XpExtractorBlock(Settings settings) {
-        super(settings);
+        super(settings.nonOpaque().allowsSpawning((s, w, p, t) -> false));
     }
 
-    private ItemStack getStack(BlockEntity entity) {
-        XpExtractorBlockEntity extractorEntity = (XpExtractorBlockEntity) entity;
-        ItemStack stack = new ItemStack(asItem());
-        if (!extractorEntity.isEmpty()) {
-            NbtCompound tag = new NbtCompound();
-            tag.put("BlockEntityTag", extractorEntity.toClientTag(new NbtCompound()));
-            stack.setNbt(tag);
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        if (!world.isReceivingRedstonePower(pos)) { // disable with redstone signal
+            if (entity instanceof PlayerEntity playerEntity) {
+                if (playerEntity.totalExperience >= XP_PER_BUCKET / 9 || playerEntity.experienceLevel >= 3 && !(playerEntity.isSneaking() || world.isReceivingRedstonePower(pos))) { // disable if sneaking
+                    try (Transaction transaction = Transaction.openOuter()) {
+                        // storage can't be null
+                        long inserted = world.getBlockEntity(pos, XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_ENTITY_TYPE).orElseThrow().insert(FluidVariant.of(STILL_LIQUID_XP), FluidConstants.BUCKET / 9, transaction);
+
+                        if (inserted == FluidConstants.BUCKET / 9) {
+                            transaction.commit();
+
+                            playerEntity.addExperience(-(XP_PER_BUCKET / 9));
+                            playerEntity.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 0.1F);
+                        }
+                    }
+                }
+            }
         }
-        return stack;
-    }
-
-    @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        LootContext lootContext = builder.parameter(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
-        return Arrays.asList(getStack(lootContext.get(LootContextParameters.BLOCK_ENTITY)));
-    }
-
-    @Nullable
-    @Override
-    public XpExtractorBlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new XpExtractorBlockEntity(pos, state, FluidConstants.BUCKET * 5);
+        super.onSteppedOn(world, pos, state, entity);
     }
 }

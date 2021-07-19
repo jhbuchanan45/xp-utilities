@@ -1,5 +1,6 @@
 package dev.maniac.xpUtilities;
 
+import dev.maniac.xpUtilities.core.XPBlockEntityTypes;
 import dev.maniac.xpUtilities.core.XPBlocks;
 import dev.maniac.xpUtilities.core.XPFluids;
 import dev.maniac.xpUtilities.core.XPItems;
@@ -18,6 +19,7 @@ public class XPUtilities implements ModInitializer {
 		XPBlocks.init();
 		XPFluids.init();
 		XPItems.init();
+		XPBlockEntityTypes.init();
 
 		System.out.println("Registering XP Utilities!");
 	}

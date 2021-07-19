@@ -83,6 +83,10 @@ public abstract class BaseFluid extends FlowableFluid {
         return 100.0F;
     }
 
+    public boolean isEmissive() {
+        return false;
+    }
+
     public abstract class Still {}
 
     public abstract class Flowing {}

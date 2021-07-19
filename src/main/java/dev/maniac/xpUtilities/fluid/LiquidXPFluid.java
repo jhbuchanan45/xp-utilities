@@ -1,19 +1,23 @@
 package dev.maniac.xpUtilities.fluid;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.client.particle.BlockLeakParticle;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
 import static dev.maniac.xpUtilities.core.XPBlocks.LIQUID_XP;
 import static dev.maniac.xpUtilities.core.XPFluids.FLOWING_LIQUID_XP;
 import static dev.maniac.xpUtilities.core.XPFluids.STILL_LIQUID_XP;
 import static dev.maniac.xpUtilities.core.XPItems.LIQUID_XP_BUCKET_FILLED;
 
-public abstract class XPFluid extends BaseFluid {
+public abstract class LiquidXPFluid extends BaseFluid {
     @Override
     public Fluid getStill() {
         return STILL_LIQUID_XP;
@@ -35,7 +39,7 @@ public abstract class XPFluid extends BaseFluid {
         return LIQUID_XP.getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(fluidState));
     }
 
-    public static class Flowing extends XPFluid {
+    public static class Flowing extends LiquidXPFluid {
         @Override
         protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
             super.appendProperties(builder);
@@ -64,11 +68,11 @@ public abstract class XPFluid extends BaseFluid {
 
         @Override
         public int getTickRate(WorldView worldView) {
-            return 2;
+            return 20;
         }
     }
 
-    public static class Still extends XPFluid {
+    public static class Still extends LiquidXPFluid {
         @Override
         public int getLevel(FluidState fluidState) {
             return 8;
