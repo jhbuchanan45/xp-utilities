@@ -2,22 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "III",
-    "GHG",
-    "GGG"
+    " DI",
+    "   "
   ],
   "key": {
-    "G": {
-      "item": "minecraft:glass_pane"
+    "D": {
+      "item": "minecraft:dropper"
     },
     "I": {
       "item": "minecraft:iron_ingot"
-    },
-    "H": {
-      "item": "minecraft:hopper"
     }
   },
   "result": {
-    "item": "xp_utilities:xp_extractor",
+    "item": "xp_utilities:xp_shower",
     "count": 1
   }
 }

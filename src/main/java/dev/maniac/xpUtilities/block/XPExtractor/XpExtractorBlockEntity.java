@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 public class XpExtractorBlockEntity extends XpTankBlockEntity {
 
     public XpExtractorBlockEntity(BlockPos pos, BlockState state, long capacity) {
-        super(XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_ENTITY_TYPE, pos, state, capacity);
+        super(XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_TYPE, pos, state, capacity);
     }
-
 }

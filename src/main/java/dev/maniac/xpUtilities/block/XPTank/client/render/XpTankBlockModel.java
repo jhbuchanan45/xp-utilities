@@ -100,7 +100,7 @@ public class XpTankBlockModel implements UnbakedModel, BakedModel, FabricBakedMo
             emitter.material(cutoutMaterial);
             // add new face
             emitter.square(direction, 0, 0, 1, 1, 0.0f);
-//            emitter.cullFace(direction);
+            emitter.cullFace(direction);
             // Set sprite for face *after* .square()
             // no uv, so use whole texture with BAKE_LOCK_UV
             emitter.spriteBake(0, SPRITES[spriteIndex], MutableQuadView.BAKE_LOCK_UV);

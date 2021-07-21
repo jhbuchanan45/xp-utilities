@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "xp_utilities:block/xp_shower" },
+    "facing=south": { "model": "xp_utilities:block/xp_shower", "y": 90 },
+    "facing=west": { "model": "xp_utilities:block/xp_shower", "y": 180 },
+    "facing=north": { "model": "xp_utilities:block/xp_shower", "y": 270 }
+  }
+}

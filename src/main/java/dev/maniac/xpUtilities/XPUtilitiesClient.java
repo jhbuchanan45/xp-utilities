@@ -36,9 +36,12 @@ public class XPUtilitiesClient implements ClientModInitializer {
     public void onInitializeClient() {
         setupFluidRendering(XPFluids.STILL_LIQUID_XP, XPFluids.FLOWING_LIQUID_XP, new Identifier("minecraft", "lava"), 0x32f932);
         registerModelProviders();
-        XpTankModelProvider.register(new Identifier(MOD_ID, "block/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier("minecraft", "block/oak_trapdoor")));
-        XpTankModelProvider.register(new Identifier(MOD_ID, "item/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier("minecraft", "block/oak_trapdoor")));
-        BlockEntityRendererRegistry.INSTANCE.register(XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_ENTITY_TYPE, XpTankRenderer::new);
+        XpTankModelProvider.register(new Identifier(MOD_ID, "block/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier(MOD_ID, "block/iron_grate")));
+        XpTankModelProvider.register(new Identifier(MOD_ID, "item/" + "xp_extractor"), new XpTankBlockModel(new Identifier("minecraft", "block/glass"), new Identifier(MOD_ID, "block/iron_grate")));
+        XpTankModelProvider.register(new Identifier(MOD_ID, "item/" + "xp_tank"), new XpTankBlockModel(new Identifier("minecraft", "block/glass")));
+        XpTankModelProvider.register(new Identifier(MOD_ID, "block/" + "xp_tank"), new XpTankBlockModel(new Identifier("minecraft", "block/glass")));
+        BlockEntityRendererRegistry.INSTANCE.register(XPBlockEntityTypes.XP_EXTRACTOR_BLOCK_TYPE, XpTankRenderer::new);
+        BlockEntityRendererRegistry.INSTANCE.register(XPBlockEntityTypes.XP_TANK_BLOCK_TYPE, XpTankRenderer::new);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), XPFluids.STILL_LIQUID_XP, XPFluids.FLOWING_LIQUID_XP);
     }
 

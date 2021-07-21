@@ -5,11 +5,12 @@ import dev.maniac.xpUtilities.core.XPBlocks;
 import dev.maniac.xpUtilities.core.XPFluids;
 import dev.maniac.xpUtilities.core.XPItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 
 public class XPUtilities implements ModInitializer {
 	public static final String MOD_ID = "xp_utilities";
-	public static final int XP_PER_BUCKET = 162;
-	public static final long XP_PER_DROPLET = XP_PER_BUCKET / 81000L;
+	public static final int XP_PER_BUCKET = 324;
+	public static final double XP_PER_DROPLET = (double) XP_PER_BUCKET / (double) FluidConstants.BUCKET;
 
 	@Override
 	public void onInitialize() {

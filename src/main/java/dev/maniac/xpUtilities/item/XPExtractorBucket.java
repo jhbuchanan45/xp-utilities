@@ -49,7 +49,7 @@ public class XPExtractorBucket extends BucketItem {
 
             return super.use(world, playerEntity, hand);
         } else {
-            if (playerEntity.totalExperience >= XP_PER_BUCKET || playerEntity.experienceLevel >= 11) {
+            if (playerEntity.totalExperience >= XP_PER_BUCKET || playerEntity.experienceLevel >= 16) {
                 // if player has bucket of xp
                 playerEntity.addExperience(-XP_PER_BUCKET);
                 ItemStack newBucket = ItemUsage.exchangeStack(playerEntity.getStackInHand(hand), playerEntity, XPItems.LIQUID_XP_EXTRACTOR_BUCKET_FILLED.getDefaultStack());

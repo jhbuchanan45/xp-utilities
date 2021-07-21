@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
-    "GHG",
-    "GGG"
+    "IGI",
+    "GAG",
+    "IGI"
   ],
   "key": {
     "G": {
@@ -12,12 +12,12 @@
     "I": {
       "item": "minecraft:iron_ingot"
     },
-    "H": {
-      "item": "minecraft:hopper"
+    "A": {
+      "item": "minecraft:gold_ingot"
     }
   },
   "result": {
-    "item": "xp_utilities:xp_extractor",
+    "item": "xp_utilities:xp_tank",
     "count": 1
   }
 }

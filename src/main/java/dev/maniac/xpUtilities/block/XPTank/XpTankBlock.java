@@ -1,10 +1,11 @@
 package dev.maniac.xpUtilities.block.XPTank;
 
 import dev.maniac.xpUtilities.block.XPExtractor.XpExtractorBlockEntity;
+import dev.maniac.xpUtilities.core.XPBlockEntityTypes;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.TransparentBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
@@ -12,6 +13,7 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,17 +21,17 @@ import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public abstract class XpTankBlock extends TransparentBlock implements BlockEntityProvider {
+public class XpTankBlock extends Block implements BlockEntityProvider {
     public XpTankBlock(Settings settings) {
-        super(settings);
+        super(settings.nonOpaque());
     }
 
-    private ItemStack getStack(BlockEntity entity) {
-        XpExtractorBlockEntity extractorEntity = (XpExtractorBlockEntity) entity;
+    protected ItemStack getStack(BlockEntity entity) {
+        XpTankBlockEntity tankEntity = (XpTankBlockEntity) entity;
         ItemStack stack = new ItemStack(asItem());
-        if (!extractorEntity.isEmpty()) {
+        if (!tankEntity.isEmpty()) {
             NbtCompound tag = new NbtCompound();
-            tag.put("BlockEntityTag", extractorEntity.toClientTag(new NbtCompound()));
+            tag.put("BlockEntityTag", tankEntity.toClientTag(new NbtCompound()));
             stack.setNbt(tag);
         }
         return stack;
@@ -43,8 +45,8 @@ public abstract class XpTankBlock extends TransparentBlock implements BlockEntit
 
     @Nullable
     @Override
-    public XpExtractorBlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new XpExtractorBlockEntity(pos, state, FluidConstants.BUCKET * 5);
+    public XpTankBlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new XpTankBlockEntity(XPBlockEntityTypes.XP_TANK_BLOCK_TYPE, pos, state, FluidConstants.BUCKET * 20);
     }
 
     @Override
@@ -55,5 +57,10 @@ public abstract class XpTankBlock extends TransparentBlock implements BlockEntit
     @Override
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return true;
+    }
+
+    @Override
+    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        return false;
     }
 }

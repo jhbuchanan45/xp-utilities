@@ -3,8 +3,12 @@
   "item.xp_utilities.liquid_xp_extractor_bucket_filled": "Liquid XP Extractor Bucket",
   "item.xp_utilities.liquid_xp_bucket": "Liquid XP Bucket",
   "item.xp_utilities.xp_extractor": "XP Extractor",
+  "item.xp_utilities.xp_bucket": "XP Shower",
+  "item.xp_utilities.xp_tank": "XP Tank",
   "block.xp_utilities.liquid_xp": "Liquid XP",
   "block.xp_utilities.xp_extractor": "XP Extractor",
+  "block.xp_utilities.xp_shower": "XP Shower",
+  "block.xp_utilities.xp_tank": "XP Tank",
   "fluid.xp_utilities.liquid_xp": "Liquid XP",
   "fluid.xp_utilities.liquid_xp_flowing": "Liquid XP"
 }
