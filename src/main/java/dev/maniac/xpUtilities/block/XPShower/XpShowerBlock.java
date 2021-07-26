@@ -45,7 +45,7 @@ public class XpShowerBlock extends HorizontalFacingBlock implements BlockEntityP
 
     public XpShowerBlock(Settings settings) {
         super(settings.nonOpaque());
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(DRAINING, true));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(DRAINING, false));
     }
 
     @Override
